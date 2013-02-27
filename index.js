@@ -41,7 +41,7 @@ var install = function(rootPath, callback) {
 // callback     - Function.
 //
 // Returns nothing.
-var copyRecipe = function(recipePath, rootPath, callback) {
+var copy = function(recipePath, rootPath, callback) {
   debug('Copying recipe from ' + recipePath);
   var copyDirectory = function(from) {
     fs_utils.copyIfExists(from, rootPath, false, function(error) {
@@ -72,7 +72,7 @@ var copyRecipe = function(recipePath, rootPath, callback) {
 // callback    - Function.
 //
 // Returns nothing.
-var cloneRecipe = function(address, rootPath, callback) {
+var clone = function(address, rootPath, callback) {
   var gitHubRe = /(gh|github)\:(?:\/\/)?/;
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
@@ -106,9 +106,9 @@ var initRecipe = function(recipe, rootPath, callback) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
     }
     isGitUri = recipe && uriRe.test(recipe);
-    get = isGitUri ? cloneRecipe : copyRecipe;
+    get = isGitUri ? clone : copy;
     get(recipe, rootPath, callback);
   });
 };
 
-exports.initRecipe = initRecipe;
+module.exports = initRecipe;

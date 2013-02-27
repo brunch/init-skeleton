@@ -38,11 +38,11 @@ You can use it programmatically too, from node.js:
 ```javascript
 var initRecipe = require('init-recipe');
 
-initRecipe.initRecipe('gh:paulirish/cool-recipe', function(error) {
+initRecipe('gh:paulirish/cool-recipe', function(error) {
   console.log('Cloned!');
 });
 
-initRecipe.initRecipe('gh:paulirish/cool-recipe', 'output', function(error) {
+initRecipe('gh:paulirish/cool-recipe', 'output', function(error) {
   console.log('Done!');
 });
 ```

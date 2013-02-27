@@ -34,4 +34,4 @@ if (count > 4 && (third === '-p' || third === '--path')) {
 
 if (!recipe) program.help();
 
-require('./').initRecipe(recipe, program.path);
+require('./')(recipe, program.path);
