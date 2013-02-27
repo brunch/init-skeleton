@@ -16,7 +16,7 @@ exports.ignoredAlways = function(path) {
 
 // Recursively copy files from one directory to another.
 // Ignores dotfiles and stuff in process.
-
+//
 // source      - String.
 // destination - String.
 // options     - Object. {filter: Boolean, filterer: Function}
@@ -37,10 +37,8 @@ exports.copyIfExists = function(source, destination, options, callback) {
     stopOnError: true
   };
 
-  return exports.exists(source, function(exists) {
-    if (!exists) {
-      return callback();
-    }
-    return ncp(source, destination, ncpOptions, callback);
+  exports.exists(source, function(exists) {
+    if (!exists) return callback();
+    ncp(source, destination, ncpOptions, callback);
   });
 };

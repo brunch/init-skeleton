@@ -15,11 +15,9 @@ var utils = require('./utils');
 //
 // Returns nothing.
 var install = function(rootPath, callback) {
-  if (callback == null) {
-    callback = (function() {});
-  }
+  if (callback == null) callback = function() {};
   var prevDir = process.cwd();
-  logger.info('Installing packages...');
+  logger.log('Installing packages...');
   process.chdir(rootPath);
   exec('npm install', function(error, stdout, stderr) {
     var log;
@@ -45,10 +43,8 @@ var copy = function(recipePath, rootPath, callback) {
   debug('Copying recipe from ' + recipePath);
   var copyDirectory = function(from) {
     fs_utils.copyIfExists(from, rootPath, false, function(error) {
-      if (error != null) {
-        return logger.error(error);
-      }
-      logger.info('Created recipe directory layout');
+      if (error != null) return logger.error(error);
+      logger.log('Created recipe directory layout');
       install(rootPath, callback);
     });
   };
@@ -81,7 +77,7 @@ var clone = function(address, rootPath, callback) {
     if (error != null) {
       return logger.error("Git clone error: " + stderr.toString());
     }
-    logger.info('Created recipe directory layout');
+    logger.log('Created recipe directory layout');
     rimraf(sysPath.join(rootPath, '.git'), function(error) {
       if (error != null) {
         return logger.error(error);
@@ -92,6 +88,12 @@ var clone = function(address, rootPath, callback) {
 };
 
 // Main function that clones or copies the recipe.
+//
+// recipe      - String, file system path or URI of recipe.
+// rootPath    - String, directory to which recipe files will be copied.
+// callback    - Function.
+//
+// Returns nothing.
 var initRecipe = function(recipe, rootPath, callback) {
   if (rootPath == null) rootPath = process.cwd();
   if (callback == null) callback = function() {};
@@ -102,12 +104,11 @@ var initRecipe = function(recipe, rootPath, callback) {
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fs.exists(sysPath.join(rootPath, 'package.json'), function(exists) {
-    var get, isGitUri;
     if (exists) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
     }
-    isGitUri = recipe && uriRe.test(recipe);
-    get = isGitUri ? clone : copy;
+    var isGitUri = recipe && uriRe.test(recipe);
+    var get = isGitUri ? clone : copy;
     get(recipe, rootPath, callback);
   });
 };
