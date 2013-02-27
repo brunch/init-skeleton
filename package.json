@@ -1,0 +1,32 @@
+{
+  "name": "init-recipe",
+  "version": "0.1.0",
+  "description": "A simple interface that clones or copies recipes (base projects for your apps).",
+  "main": "index.js",
+  "bin": {
+    "init-recipe": "./init-recipe"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulmillr/init-recipe"
+  },
+  "keywords": [
+    "scaffold",
+    "scaffolder",
+    "tasty",
+    "simple"
+  ],
+  "author": "Paul Miller (paulmillr.com)",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "~0.7.2",
+    "mkdirp": "~0.3.5",
+    "rimraf": "~2.1.4",
+    "ncp": "~0.4.0",
+    "loggy": "~0.1.0",
+    "commander": "~1.1.1"
+  }
+}

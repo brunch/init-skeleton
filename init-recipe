@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+var argv = process.argv;
+var count = argv.length;
+var third = process.argv[2];
+
+program
+  .version('0.1.0')
+  .usage('[options] <recipe>')
+  .option('-p, --path [path]', 'path to directory to which recipe will be copied')
+  .parse(argv);
+
+program.on('--help', function() {
+  console.log('  You can use gh: protocol which is shortcut to GitHub repositories.')
+  console.log('  Examples:');
+  console.log('');
+  console.log('    init-recipe ../dir/my-recipe');
+  console.log('    init-recipe gh:paulmillr/brunch-with-chaplin');
+  console.log('    init-recipe https://github.com/scotch/angular-brunch-seed');
+  console.log('    init-recipe -p ../bwc https://github.com/scotch/angular-brunch-seed -p /abs');
+  console.log('    init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git');
+  console.log('');
+});
+
+program.parse(process.argv);
+
+var recipe = third;
+
+if (count > 4 && (third === '-p' || third === '--path')) {
+  recipe = process.argv[4]
+}
+
+if (!recipe) program.help();
+
+require('./').initRecipe(recipe, program.path);
