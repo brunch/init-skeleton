@@ -9,8 +9,7 @@ var third = process.argv[2];
 program
   .version('0.1.0')
   .usage('[options] <recipe>')
-  .option('-p, --path [path]', 'path to directory to which recipe will be copied')
-  .parse(argv);
+  .option('-p, --path [path]', 'path to directory to which recipe will be copied');
 
 program.on('--help', function() {
   console.log('  You can use gh: protocol which is shortcut to GitHub repositories.')
@@ -21,6 +20,7 @@ program.on('--help', function() {
   console.log('    init-recipe https://github.com/scotch/angular-brunch-seed');
   console.log('    init-recipe -p ../bwc https://github.com/scotch/angular-brunch-seed -p /abs');
   console.log('    init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git');
+  console.log('    init-recipe gh:visionmedia/cool-recipe -p ../../stuff');
   console.log('');
 });
 

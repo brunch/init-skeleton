@@ -14,13 +14,17 @@ Supported formats:
 
 ## Usage
 
+`init-recipe <uri-or-path-to-recipe>[ --path [path to output dir]]`
+
 Examples:
 
 ```bash
-init-recipe ../recipes/my-recipe
+init-recipe ../dir/my-recipe
 init-recipe gh:paulmillr/brunch-with-chaplin
-init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git
 init-recipe https://github.com/scotch/angular-brunch-seed
+init-recipe https://github.com/scotch/angular-brunch-seed
+init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git -p current-project
+init-recipe gh:visionmedia/cool-recipe -p ../../stuff
 ```
 
 ## License
