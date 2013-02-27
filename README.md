@@ -17,6 +17,8 @@ Supported formats:
 * Git URI
 * GitHub URI (gh:user/project)
 
+Install with npm: `npm install -g init-recipe`.
+
 ## Usage
 
 `init-recipe <uri-or-path-to-recipe> [--path <path-to-output-dir>]`
@@ -29,6 +31,20 @@ init-recipe gh:paulmillr/brunch-with-chaplin
 init-recipe https://github.com/scotch/angular-brunch-seed
 init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git -p current-project
 init-recipe gh:visionmedia/cool-recipe -p ../../stuff
+```
+
+You can use it programmatically too, from node.js:
+
+```javascript
+var initRecipe = require('init-recipe');
+
+initRecipe.initRecipe('gh:paulirish/cool-recipe', function(error) {
+  console.log('Cloned!');
+});
+
+initRecipe.initRecipe('gh:paulirish/cool-recipe', 'output', function(error) {
+  console.log('Done!');
+});
 ```
 
 ## License

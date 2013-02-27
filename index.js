@@ -94,6 +94,10 @@ var cloneRecipe = function(address, rootPath, callback) {
 var initRecipe = function(recipe, rootPath, callback) {
   if (rootPath == null) rootPath = process.cwd();
   if (callback == null) callback = function() {};
+  if (typeof rootPath === 'function') {
+    callback = rootPath;
+    rootPath = process.cwd();
+  }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fs.exists(sysPath.join(rootPath, 'package.json'), function(exists) {
