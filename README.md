@@ -3,8 +3,13 @@
 A simple interface that clones or copies recipes.
 Recipe is a base repo for your application (any technology).
 
-`init-recipe` currently just clones or copies the repository, executes `npm install` and removes `.git` directory. Useful for Brunch and Grunt base repos
-(skeletons).
+`init-recipe` currently just clones or copies the repository,
+executes `npm install` and removes `.git` directory.
+Useful for [Brunch](http://brunch.io) and
+[Grunt](http://gruntjs.com) base repos (skeletons).
+
+[grunt-init](https://github.com/gruntjs/grunt-init) is similar, except it
+requires to clone projects to home directory before initialising from it.
 
 Supported formats:
 
