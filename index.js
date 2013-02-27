@@ -36,7 +36,7 @@ var install = function(rootPath, callback) {
 
 // Copy recipe from file system.
 //
-// recipePath - String, file system path from which files will be taken.
+// recipePath   - String, file system path from which files will be taken.
 // rootPath     - String, directory to which recipe files will be copied.
 // callback     - Function.
 //
@@ -91,6 +91,7 @@ var clone = function(address, rootPath, callback) {
   });
 };
 
+// Main function that clones or copies the recipe.
 var initRecipe = function(recipe, rootPath, callback) {
   if (rootPath == null) rootPath = process.cwd();
   if (callback == null) callback = function() {};
