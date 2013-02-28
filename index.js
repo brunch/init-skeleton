@@ -94,7 +94,7 @@ var clone = function(address, rootPath, callback) {
 // callback    - Function.
 //
 // Returns nothing.
-var initskeleton = function(skeleton, rootPath, callback) {
+var initSkeleton = function(skeleton, rootPath, callback) {
   if (rootPath == null) rootPath = process.cwd();
   if (callback == null) callback = function() {};
   if (typeof rootPath === 'function') {
@@ -113,4 +113,4 @@ var initskeleton = function(skeleton, rootPath, callback) {
   });
 };
 
-module.exports = initskeleton;
+module.exports = initSkeleton;

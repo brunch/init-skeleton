@@ -36,13 +36,13 @@ init-skeleton gh:visionmedia/cool-skeleton -p ../../stuff
 You can use it programmatically too, from node.js:
 
 ```javascript
-var initskeleton = require('init-skeleton');
+var initSkeleton = require('init-skeleton');
 
-initskeleton('gh:paulirish/cool-skeleton', function(error) {
+initSkeleton('gh:paulirish/cool-skeleton', function(error) {
   console.log('Cloned!');
 });
 
-initskeleton('gh:paulirish/cool-skeleton', 'output', function(error) {
+initSkeleton('gh:paulirish/cool-skeleton', 'output', function(error) {
   console.log('Done!');
 });
 ```
