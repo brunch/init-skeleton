@@ -1,9 +1,9 @@
-# init-recipe
+# init-skeleton
 
-A simple interface that clones or copies recipes.
-Recipe is a base repo for your application (any technology).
+A simple interface that clones or copies skeletons.
+skeleton is a base repo for your application (any technology).
 
-`init-recipe` currently just clones or copies the repository,
+`init-skeleton` currently just clones or copies the repository,
 executes `npm install` and removes `.git` directory.
 Useful for [Brunch](http://brunch.io) and
 [Grunt](http://gruntjs.com) base repos (skeletons).
@@ -17,32 +17,32 @@ Supported formats:
 * Git URI
 * GitHub URI (gh:user/project)
 
-Install with npm: `npm install -g init-recipe`.
+Install with npm: `npm install -g init-skeleton`.
 
 ## Usage
 
-`init-recipe <uri-or-path-to-recipe> [--path <path-to-output-dir>]`
+`init-skeleton <uri-or-path-to-skeleton> [--path <path-to-output-dir>]`
 
 Examples:
 
 ```bash
-init-recipe ../dir/my-recipe
-init-recipe gh:paulmillr/brunch-with-chaplin
-init-recipe https://github.com/scotch/angular-brunch-seed
-init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git -p current-project
-init-recipe gh:visionmedia/cool-recipe -p ../../stuff
+init-skeleton ../dir/my-skeleton
+init-skeleton gh:paulmillr/brunch-with-chaplin
+init-skeleton https://github.com/scotch/angular-brunch-seed
+init-skeleton git@github.com:nezoomie/brunch-with-eggs-and-bacon.git -p current-project
+init-skeleton gh:visionmedia/cool-skeleton -p ../../stuff
 ```
 
 You can use it programmatically too, from node.js:
 
 ```javascript
-var initRecipe = require('init-recipe');
+var initskeleton = require('init-skeleton');
 
-initRecipe('gh:paulirish/cool-recipe', function(error) {
+initskeleton('gh:paulirish/cool-skeleton', function(error) {
   console.log('Cloned!');
 });
 
-initRecipe('gh:paulirish/cool-recipe', 'output', function(error) {
+initskeleton('gh:paulirish/cool-skeleton', 'output', function(error) {
   console.log('Done!');
 });
 ```

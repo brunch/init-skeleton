@@ -1,5 +1,5 @@
 'use strict';
-var debug = require('debug')('init-recipe');
+var debug = require('debug')('init-skeleton');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var logger = require('loggy');
@@ -32,19 +32,19 @@ var install = function(rootPath, callback) {
 };
 
 
-// Copy recipe from file system.
+// Copy skeleton from file system.
 //
-// recipePath   - String, file system path from which files will be taken.
-// rootPath     - String, directory to which recipe files will be copied.
+// skeletonPath   - String, file system path from which files will be taken.
+// rootPath     - String, directory to which skeleton files will be copied.
 // callback     - Function.
 //
 // Returns nothing.
-var copy = function(recipePath, rootPath, callback) {
-  debug('Copying recipe from ' + recipePath);
+var copy = function(skeletonPath, rootPath, callback) {
+  debug('Copying skeleton from ' + skeletonPath);
   var copyDirectory = function(from) {
     fs_utils.copyIfExists(from, rootPath, false, function(error) {
       if (error != null) return logger.error(error);
-      logger.log('Created recipe directory layout');
+      logger.log('Created skeleton directory layout');
       install(rootPath, callback);
     });
   };
@@ -52,19 +52,19 @@ var copy = function(recipePath, rootPath, callback) {
   // Chmod with 755.
   mkdirp(rootPath, 0x1ed, function(error) {
     if (error != null) {return logger.error(error);}
-    fs.exists(recipePath, function(exists) {
+    fs.exists(skeletonPath, function(exists) {
       if (!exists) {
-        return logger.error("Recipe '" + recipePath + "' doesn't exist");
+        return logger.error("skeleton '" + skeletonPath + "' doesn't exist");
       }
-      copyDirectory(recipePath);
+      copyDirectory(skeletonPath);
     });
   });
 };
 
-// Clones recipe from URI.
+// Clones skeleton from URI.
 //
 // address     - String, URI. https:, github: or git: may be used.
-// rootPath    - String, directory to which recipe files will be copied.
+// rootPath    - String, directory to which skeleton files will be copied.
 // callback    - Function.
 //
 // Returns nothing.
@@ -72,12 +72,12 @@ var clone = function(address, rootPath, callback) {
   var gitHubRe = /(gh|github)\:(?:\/\/)?/;
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
-  debug("Cloning recipe from git URL " + url);
+  debug("Cloning skeleton from git URL " + url);
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
       return logger.error("Git clone error: " + stderr.toString());
     }
-    logger.log('Created recipe directory layout');
+    logger.log('Created skeleton directory layout');
     rimraf(sysPath.join(rootPath, '.git'), function(error) {
       if (error != null) {
         return logger.error(error);
@@ -87,14 +87,14 @@ var clone = function(address, rootPath, callback) {
   });
 };
 
-// Main function that clones or copies the recipe.
+// Main function that clones or copies the skeleton.
 //
-// recipe      - String, file system path or URI of recipe.
-// rootPath    - String, directory to which recipe files will be copied.
+// skeleton      - String, file system path or URI of skeleton.
+// rootPath    - String, directory to which skeleton files will be copied.
 // callback    - Function.
 //
 // Returns nothing.
-var initRecipe = function(recipe, rootPath, callback) {
+var initskeleton = function(skeleton, rootPath, callback) {
   if (rootPath == null) rootPath = process.cwd();
   if (callback == null) callback = function() {};
   if (typeof rootPath === 'function') {
@@ -107,10 +107,10 @@ var initRecipe = function(recipe, rootPath, callback) {
     if (exists) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
     }
-    var isGitUri = recipe && uriRe.test(recipe);
+    var isGitUri = skeleton && uriRe.test(skeleton);
     var get = isGitUri ? clone : copy;
-    get(recipe, rootPath, callback);
+    get(skeleton, rootPath, callback);
   });
 };
 
-module.exports = initRecipe;
+module.exports = initskeleton;

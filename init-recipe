@@ -8,30 +8,30 @@ var third = process.argv[2];
 
 program
   .version('0.1.0')
-  .usage('[options] <recipe>')
-  .option('-p, --path [path]', 'path to directory to which recipe will be copied');
+  .usage('[options] <skeleton>')
+  .option('-p, --path [path]', 'path to directory to which skeleton will be copied');
 
 program.on('--help', function() {
   console.log('  You can use gh: protocol which is shortcut to GitHub repositories.')
   console.log('  Examples:');
   console.log('');
-  console.log('    init-recipe ../dir/my-recipe');
-  console.log('    init-recipe gh:paulmillr/brunch-with-chaplin');
-  console.log('    init-recipe https://github.com/scotch/angular-brunch-seed');
-  console.log('    init-recipe -p ../bwc https://github.com/scotch/angular-brunch-seed -p /abs');
-  console.log('    init-recipe git@github.com:nezoomie/brunch-with-eggs-and-bacon.git');
-  console.log('    init-recipe gh:visionmedia/cool-recipe -p ../../stuff');
+  console.log('    init-skeleton ../dir/my-skeleton');
+  console.log('    init-skeleton gh:paulmillr/brunch-with-chaplin');
+  console.log('    init-skeleton https://github.com/scotch/angular-brunch-seed');
+  console.log('    init-skeleton -p ../bwc https://github.com/scotch/angular-brunch-seed -p /abs');
+  console.log('    init-skeleton git@github.com:nezoomie/brunch-with-eggs-and-bacon.git');
+  console.log('    init-skeleton gh:visionmedia/cool-skeleton -p ../../stuff');
   console.log('');
 });
 
 program.parse(process.argv);
 
-var recipe = third;
+var skeleton = third;
 
 if (count > 4 && (third === '-p' || third === '--path')) {
-  recipe = process.argv[4]
+  skeleton = process.argv[4]
 }
 
-if (!recipe) program.help();
+if (!skeleton) program.help();
 
-require('./')(recipe, program.path);
+require('./')(skeleton, program.path);

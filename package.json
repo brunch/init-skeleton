@@ -1,17 +1,17 @@
 {
-  "name": "init-recipe",
+  "name": "init-skeleton",
   "version": "0.1.0",
-  "description": "A simple interface that clones or copies recipes (base projects for your apps).",
+  "description": "A simple interface that clones or copies skeletons (base projects for your apps).",
   "main": "index.js",
   "bin": {
-    "init-recipe": "./init-recipe"
+    "init-skeleton": "./init-skeleton"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulmillr/init-recipe"
+    "url": "https://github.com/paulmillr/init-skeleton"
   },
   "keywords": [
     "scaffold",
