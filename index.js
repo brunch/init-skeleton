@@ -6,6 +6,7 @@ var logger = require('loggy');
 var mkdirp = require('mkdirp');
 var sysPath = require('path');
 var rimraf = require('rimraf');
+var ncp = require('ncp');
 var utils = require('./utils');
 
 // Executes `npm install` in rootPath.
@@ -31,6 +32,9 @@ var install = function(rootPath, callback) {
   });
 };
 
+var ignored = function(path) {
+  return !(/^\.(git|hg)$/.test(sysPath.basename(path)));
+};
 
 // Copy skeleton from file system.
 //
@@ -41,9 +45,12 @@ var install = function(rootPath, callback) {
 // Returns nothing.
 var copy = function(skeletonPath, rootPath, callback) {
   debug('Copying skeleton from ' + skeletonPath);
-  var copyDirectory = function(from) {
-    fs_utils.copyIfExists(from, rootPath, false, function(error) {
-      if (error != null) return logger.error(error);
+  var copyDirectory = function() {
+    ncp(skeletonPath, rootPath, {filter: ignored}, function(error) {
+      if (error != null) {
+        callback(new Error(error));
+        return logger.error(error);
+      }
       logger.log('Created skeleton directory layout');
       install(rootPath, callback);
     });
@@ -51,12 +58,17 @@ var copy = function(skeletonPath, rootPath, callback) {
 
   // Chmod with 755.
   mkdirp(rootPath, 0x1ed, function(error) {
-    if (error != null) {return logger.error(error);}
+    if (error != null) {
+      callback(new Error(error));
+      return logger.error(error);
+    }
     fs.exists(skeletonPath, function(exists) {
       if (!exists) {
-        return logger.error("skeleton '" + skeletonPath + "' doesn't exist");
+        var error = "skeleton '" + skeletonPath + "' doesn't exist";
+        callback(new Error(error));
+        return logger.error(error);
       }
-      copyDirectory(skeletonPath);
+      copyDirectory();
     });
   });
 };
@@ -75,11 +87,14 @@ var clone = function(address, rootPath, callback) {
   debug("Cloning skeleton from git URL " + url);
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
-      return logger.error("Git clone error: " + stderr.toString());
+      var err = stderr.toString();
+      callback(new Error(err));
+      return logger.error("Git clone error: " + err);
     }
     logger.log('Created skeleton directory layout');
     rimraf(sysPath.join(rootPath, '.git'), function(error) {
       if (error != null) {
+        callback(new Error(error));
         return logger.error(error);
       }
       install(rootPath, callback);
