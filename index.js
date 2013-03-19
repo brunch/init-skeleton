@@ -1,5 +1,4 @@
 'use strict';
-var debug = require('debug')('init-skeleton');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var logger = require('loggy');
@@ -44,7 +43,6 @@ var ignored = function(path) {
 //
 // Returns nothing.
 var copy = function(skeletonPath, rootPath, callback) {
-  debug('Copying skeleton from ' + skeletonPath);
   var copyDirectory = function() {
     ncp(skeletonPath, rootPath, {filter: ignored}, function(error) {
       if (error != null) {
@@ -84,7 +82,6 @@ var clone = function(address, rootPath, callback) {
   var gitHubRe = /(gh|github)\:(?:\/\/)?/;
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
-  debug("Cloning skeleton from git URL " + url);
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
       var err = stderr.toString();
