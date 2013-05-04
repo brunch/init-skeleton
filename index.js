@@ -115,6 +115,7 @@ var initSkeleton = function(skeleton, rootPath, callback) {
   }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
+  fs.exists = fs.exists || require('path').exists;
   fs.exists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
