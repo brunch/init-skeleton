@@ -1,6 +1,6 @@
 'use strict';
 var exec = require('child_process').exec;
-var fs = require('fs');
+var fs = require('path');
 var logger = require('loggy');
 var mkdirp = require('mkdirp');
 var sysPath = require('path');
