@@ -8,6 +8,9 @@ var rimraf = require('rimraf');
 var ncp = require('ncp');
 var utils = require('./utils');
 
+// Shortcut for backwards-compat fs.exists.
+var fsexists = fs.exists || sysPath.exists;
+
 // Executes `npm install` in rootPath.
 //
 // rootPath - String. Path to directory in which command will be executed.
@@ -60,7 +63,7 @@ var copy = function(skeletonPath, rootPath, callback) {
       callback(new Error(error));
       return logger.error(error);
     }
-    fs.exists(skeletonPath, function(exists) {
+    fsexists(skeletonPath, function(exists) {
       if (!exists) {
         var error = "skeleton '" + skeletonPath + "' doesn't exist";
         callback(new Error(error));
@@ -115,8 +118,7 @@ var initSkeleton = function(skeleton, rootPath, callback) {
   }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
-  fs.exists = fs.exists || require('path').exists;
-  fs.exists(sysPath.join(rootPath, 'package.json'), function(exists) {
+  fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
     }
