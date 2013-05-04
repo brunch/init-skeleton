@@ -1,6 +1,6 @@
 'use strict';
 var exec = require('child_process').exec;
-var fs = require('path');
+var fs = require('fs');
 var logger = require('loggy');
 var mkdirp = require('mkdirp');
 var sysPath = require('path');
@@ -115,6 +115,7 @@ var initSkeleton = function(skeleton, rootPath, callback) {
   }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
+  fs.exists = fs.exists || require('path').exists;
   fs.exists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
       return logger.error("Directory '" + rootPath + "' is already an npm project");
