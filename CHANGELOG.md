@@ -1,3 +1,6 @@
+# init-skeleton 0.1.5 (23 May 2013)
+* Added more logs.
+
 # init-skeleton 0.1.4 (5 May 2013)
 * Added node.js 0.6 compatibility.
 
