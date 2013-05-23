@@ -69,6 +69,7 @@ var copy = function(skeletonPath, rootPath, callback) {
         callback(new Error(error));
         return logger.error(error);
       }
+      logger.log('Copying local skeleton...');
       copyDirectory();
     });
   });
@@ -85,6 +86,7 @@ var clone = function(address, rootPath, callback) {
   var gitHubRe = /(gh|github)\:(?:\/\/)?/;
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
+  logger.log('Cloning git repo "' + url + '"...');
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
       var err = stderr.toString();
