@@ -1,3 +1,6 @@
+# init-skeleton 0.1.6 (28 June 2013)
+* Updated dependencies.
+
 # init-skeleton 0.1.5 (23 May 2013)
 * Added more logs.
 
