@@ -7,7 +7,7 @@ var count = argv.length;
 var third = process.argv[2];
 
 program
-  .version('0.1.0')
+  .version(require('./package.json').version)
   .usage('[options] <skeleton>')
   .option('-p, --path [path]', 'path to directory to which skeleton will be copied');
 

@@ -106,7 +106,7 @@ var clone = function(address, rootPath, callback) {
 
 // Main function that clones or copies the skeleton.
 //
-// skeleton      - String, file system path or URI of skeleton.
+// skeleton    - String, file system path or URI of skeleton.
 // rootPath    - String, directory to which skeleton files will be copied.
 // callback    - Function.
 //
