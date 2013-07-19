@@ -22,15 +22,19 @@ var install = function(rootPath, callback) {
   var prevDir = process.cwd();
   logger.log('Installing packages...');
   process.chdir(rootPath);
-  exec('npm install', function(error, stdout, stderr) {
-    var log;
-    process.chdir(prevDir);
-    if (error != null) {
-      log = stderr.toString();
-      logger.error(log);
-      return callback(log);
-    }
-    callback(null, stdout);
+  fsexists('bower.json', function(exists) {
+    var installCmd = 'npm install';
+    if (exists) installCmd += ' & bower install';
+    exec(installCmd, function(error, stdout, stderr) {
+      var log;
+      process.chdir(prevDir);
+      if (error != null) {
+        log = stderr.toString();
+        logger.error(log);
+        return callback(log);
+      }
+      callback(null, stdout);
+    });
   });
 };
 
