@@ -104,11 +104,6 @@ var clone = function(address, rootPath, callback) {
 var initSkeleton = function(skeleton, rootPath, callback) {
   var banner, error;
   if (rootPath == null) rootPath = process.cwd();
-  if (skeleton == null) {
-    banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
-    error = banner.replace(/\{\{command\}\}/g, initSkeleton.commandName);
-    return callback(new Error(error));
-  }
   if (typeof rootPath === 'function') {
     callback = rootPath;
     rootPath = process.cwd();
@@ -117,6 +112,11 @@ var initSkeleton = function(skeleton, rootPath, callback) {
     callback = function(error) {
       if (error != null) return logger.error(error.toString());
     };
+  }
+  if (skeleton == null) {
+    banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
+    error = banner.replace(/\{\{command\}\}/g, initSkeleton.commandName);
+    return callback(new Error(error));
   }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;

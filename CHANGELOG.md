@@ -1,3 +1,6 @@
+# init-skeleton 0.2.1 (20 July 2013)
+* Fixed bug with empty skeleton.
+
 # init-skeleton 0.2.0 (20 July 2013)
 * Added Bower support.
 * Changed syntax to `init-skeleton <skel> [path]`
