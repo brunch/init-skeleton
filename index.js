@@ -11,14 +11,13 @@ var utils = require('./utils');
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
 
-// Executes `npm install` in rootPath.
+// Executes `npm install` and `bower install` in rootPath.
 //
 // rootPath - String. Path to directory in which command will be executed.
 // callback - Function. Takes stderr and stdout of executed process.
 //
 // Returns nothing.
 var install = function(rootPath, callback) {
-  if (callback == null) callback = function() {};
   var prevDir = process.cwd();
   logger.log('Installing packages...');
   process.chdir(rootPath);
@@ -30,7 +29,6 @@ var install = function(rootPath, callback) {
       process.chdir(prevDir);
       if (error != null) {
         log = stderr.toString();
-        logger.error(log);
         return callback(log);
       }
       callback(null, stdout);
@@ -52,10 +50,7 @@ var ignored = function(path) {
 var copy = function(skeletonPath, rootPath, callback) {
   var copyDirectory = function() {
     ncp(skeletonPath, rootPath, {filter: ignored}, function(error) {
-      if (error != null) {
-        callback(new Error(error));
-        return logger.error(error);
-      }
+      if (error != null) return callback(new Error(error));
       logger.log('Created skeleton directory layout');
       install(rootPath, callback);
     });
@@ -63,15 +58,11 @@ var copy = function(skeletonPath, rootPath, callback) {
 
   // Chmod with 755.
   mkdirp(rootPath, 0x1ed, function(error) {
-    if (error != null) {
-      callback(new Error(error));
-      return logger.error(error);
-    }
+    if (error != null) return callback(new Error(error));
     fsexists(skeletonPath, function(exists) {
       if (!exists) {
         var error = "skeleton '" + skeletonPath + "' doesn't exist";
-        callback(new Error(error));
-        return logger.error(error);
+        return callback(new Error(error));
       }
       logger.log('Copying local skeleton...');
       copyDirectory();
@@ -93,16 +84,11 @@ var clone = function(address, rootPath, callback) {
   logger.log('Cloning git repo "' + url + '"...');
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
-      var err = stderr.toString();
-      callback(new Error(err));
-      return logger.error("Git clone error: " + err);
+      return callback(new Error("Git clone error: " + stderr.toString()));
     }
     logger.log('Created skeleton directory layout');
     rimraf(sysPath.join(rootPath, '.git'), function(error) {
-      if (error != null) {
-        callback(new Error(error));
-        return logger.error(error);
-      }
+      if (error != null) return callback(new Error(error));
       install(rootPath, callback);
     });
   });
@@ -116,22 +102,34 @@ var clone = function(address, rootPath, callback) {
 //
 // Returns nothing.
 var initSkeleton = function(skeleton, rootPath, callback) {
+  var banner, error;
   if (rootPath == null) rootPath = process.cwd();
-  if (callback == null) callback = function() {};
+  if (skeleton == null) {
+    banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
+    error = banner.replace(/\{\{command\}\}/g, initSkeleton.commandName);
+    return callback(new Error(error));
+  }
   if (typeof rootPath === 'function') {
     callback = rootPath;
     rootPath = process.cwd();
+  }
+  if (callback == null) {
+    callback = function(error) {
+      if (error != null) return logger.error(error.toString());
+    };
   }
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
-      return logger.error("Directory '" + rootPath + "' is already an npm project");
+      return callback(new Error("Directory '" + rootPath + "' is already an npm project"));
     }
     var isGitUri = skeleton && uriRe.test(skeleton);
     var get = isGitUri ? clone : copy;
     get(skeleton, rootPath, callback);
   });
 };
+
+initSkeleton.commandName = 'init-skeleton';
 
 module.exports = initSkeleton;
