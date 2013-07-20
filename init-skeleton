@@ -4,12 +4,10 @@ var program = require('commander');
 
 var argv = process.argv;
 var count = argv.length;
-var third = process.argv[2];
 
 program
   .version(require('./package.json').version)
-  .usage('[options] <skeleton>')
-  .option('-p, --path [path]', 'path to directory to which skeleton will be copied');
+  .usage('[options] <skeleton> [path]');
 
 program.on('--help', function() {
   console.log('  You can use gh: protocol which is shortcut to GitHub repositories.')
@@ -17,21 +15,15 @@ program.on('--help', function() {
   console.log('');
   console.log('    init-skeleton ../dir/my-skeleton');
   console.log('    init-skeleton gh:paulmillr/brunch-with-chaplin');
-  console.log('    init-skeleton https://github.com/scotch/angular-brunch-seed');
-  console.log('    init-skeleton -p ../bwc https://github.com/scotch/angular-brunch-seed -p /abs');
+  console.log('    init-skeleton https://github.com/scotch/angular-brunch-seed ..');
   console.log('    init-skeleton git@github.com:nezoomie/brunch-with-eggs-and-bacon.git');
-  console.log('    init-skeleton gh:visionmedia/cool-skeleton -p ../../stuff');
+  console.log('    init-skeleton gh:visionmedia/cool-skeleton ../../stuff');
   console.log('');
 });
 
 program.parse(process.argv);
 
-var skeleton = third;
-
-if (count > 4 && (third === '-p' || third === '--path')) {
-  skeleton = process.argv[4]
-}
-
+var skeleton = program.args[0];
+var path = program.args[1];
 if (!skeleton) program.help();
-
-require('./')(skeleton, program.path);
+require('./')(skeleton, path);
