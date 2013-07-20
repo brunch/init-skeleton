@@ -1,3 +1,7 @@
+# init-skeleton 0.2.0 (20 July 2013)
+* Added Bower support.
+* Changed syntax to `init-skeleton <skel> [path]`
+
 # init-skeleton 0.1.6 (28 June 2013)
 * Updated dependencies.
 
