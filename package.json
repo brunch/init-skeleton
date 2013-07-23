@@ -1,6 +1,6 @@
 {
   "name": "init-skeleton",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A simple interface that clones or copies skeletons (base projects for your apps).",
   "main": "index.js",
   "bin": {

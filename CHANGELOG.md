@@ -1,3 +1,6 @@
+# init-skeleton 0.2.2 (23 July 2013)
+* Added Bower install guide.
+
 # init-skeleton 0.2.1 (20 July 2013)
 * Fixed bug with empty skeleton.
 
