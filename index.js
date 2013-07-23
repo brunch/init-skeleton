@@ -27,9 +27,12 @@ var install = function(rootPath, callback) {
     exec(installCmd, function(error, stdout, stderr) {
       var log;
       process.chdir(prevDir);
+      if (stdout) console.log(stdout.toString());
       if (error != null) {
         log = stderr.toString();
-        return callback(log);
+        var bowerNotFound = /bower\: command not found/.test(log);
+        var msg = bowerNotFound ? 'You need to install Bower and then install skeleton dependencies: `npm install -g bower && bower install`. Error text: ' + log : log;
+        return callback(new Error(msg));
       }
       callback(null, stdout);
     });
