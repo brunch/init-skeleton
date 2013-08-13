@@ -1,3 +1,6 @@
+# init-skeleton 0.2.3 (13 August 2013)
+* Improved log messages.
+
 # init-skeleton 0.2.2 (23 July 2013)
 * Added Bower install guide.
 
