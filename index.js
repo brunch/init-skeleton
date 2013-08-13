@@ -67,7 +67,8 @@ var copy = function(skeletonPath, rootPath, callback) {
         var error = "skeleton '" + skeletonPath + "' doesn't exist";
         return callback(new Error(error));
       }
-      logger.log('Copying local skeleton...');
+      logger.log('Copying local skeleton to "' + rootPath + '"...');
+
       copyDirectory();
     });
   });
@@ -84,7 +85,7 @@ var clone = function(address, rootPath, callback) {
   var gitHubRe = /(gh|github)\:(?:\/\/)?/;
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
-  logger.log('Cloning git repo "' + url + '"...');
+  logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
   exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
     if (error != null) {
       return callback(new Error("Git clone error: " + stderr.toString()));
