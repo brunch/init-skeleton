@@ -1,3 +1,6 @@
+# init-skeleton 0.2.4 (13 August 2013)
+* Prevent common error.
+
 # init-skeleton 0.2.3 (13 August 2013)
 * Improved log messages.
 
