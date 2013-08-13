@@ -107,11 +107,13 @@ var clone = function(address, rootPath, callback) {
 // Returns nothing.
 var initSkeleton = function(skeleton, rootPath, callback) {
   var banner, error;
-  if (rootPath == null) rootPath = process.cwd();
+  var cwd = process.cwd();
+  if (rootPath == null) rootPath = cwd;
   if (typeof rootPath === 'function') {
     callback = rootPath;
-    rootPath = process.cwd();
+    rootPath = cwd;
   }
+  if (skeleton === '.' && rootPath === cwd) skeleton = null;
   if (callback == null) {
     callback = function(error) {
       if (error != null) return logger.error(error.toString());
