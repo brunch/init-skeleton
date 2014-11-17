@@ -1,3 +1,6 @@
+# init-skeleton 0.3.0 (17 November 2014)
+* Shortcuts support
+
 # init-skeleton 0.2.4 (13 August 2013)
 * Prevent common error.
 
