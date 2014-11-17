@@ -125,6 +125,13 @@ var initSkeleton = function(skeleton, rootPath, callback) {
     return callback(new Error(error));
   }
 
+  switch (skeleton) {
+    case 'exim':    skeleton = 'gh:hellyeahllc/brunch-with-exim'; break;
+    case 'chaplin': skeleton = 'gh:paulmillr/brunch-with-chaplin'; break;
+    case 'angular': skeleton = 'gh:scotch/angular-brunch-seed'; break;
+    case 'ember':   skeleton = 'gh:ksnyde/brunch-with-ember-sideloaded'; break;
+  }
+
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
