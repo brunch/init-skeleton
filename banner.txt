@@ -13,4 +13,4 @@ Some suggestions:
 * gh:ksnyde/brunch-with-ember-sideloaded — official Ember.js starter kit + Handlebars + CoffeeScript + Stylus
 
 All other skeletons (40+) are available at
-http://brunch.io/skeletons.html
+http://brunch.io/skeletons
