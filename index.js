@@ -86,7 +86,7 @@ var clone = function(address, rootPath, callback) {
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
   logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
-  exec("git clone " + url + " " + rootPath, function(error, stdout, stderr) {
+  exec('git clone ' + url + ' "' + rootPath + '"', function(error, stdout, stderr) {
     if (error != null) {
       return callback(new Error("Git clone error: " + stderr.toString()));
     }
