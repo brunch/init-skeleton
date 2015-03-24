@@ -1,13 +1,14 @@
 'use strict';
 var exec = require('child_process').exec;
 var fs = require('fs');
-var logger = require('loggy');
 var mkdirp = require('mkdirp');
 var sysPath = require('path');
 var rimraf = require('rimraf');
 var ncp = require('ncp');
 
 var skeletons = require('./skeletons.json');
+
+var logger = console;
 
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
@@ -53,7 +54,7 @@ var ignored = function(path) {
 // Returns nothing.
 var copy = function(skeletonPath, rootPath, callback) {
   var copyDirectory = function() {
-    ncp(skeletonPath, rootPath, {filter: ignored}, function(error) {
+    ncp(skeletonPath, rootPath, {filter: ignored, stopOnErr: true}, function(error) {
       if (error != null) return callback(new Error(error));
       logger.log('Created skeleton directory layout');
       install(rootPath, callback);
@@ -87,7 +88,8 @@ var clone = function(address, rootPath, callback) {
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
   logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
-  exec('git clone ' + url + ' "' + rootPath + '"', function(error, stdout, stderr) {
+  var cmd = 'git clone ' + url + ' "' + rootPath + '"';
+  exec(cmd, function(error, stdout, stderr) {
     if (error != null) {
       return callback(new Error("Git clone error: " + stderr.toString()));
     }
@@ -113,9 +115,11 @@ var initSkeleton = function(skeleton, options, callback) {
     callback = options;
     options = null;
   }
+
   if (options == null) options = {};
   var rootPath = options.rootPath || cwd;
   var commandName = options.commandName || 'init-skeleton';
+  if (options.logger) logger = options.logger;
 
   if (skeleton === '.' && rootPath === cwd) skeleton = null;
   if (callback == null) callback = function(error) {

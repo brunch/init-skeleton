@@ -1,11 +1,8 @@
 {
   "name": "init-skeleton",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "A simple interface that clones or copies skeletons (base projects for your apps).",
   "main": "index.js",
-  "bin": {
-    "init-skeleton": "./init-skeleton"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,10 +19,8 @@
   "author": "Paul Miller (http://paulmillr.com)",
   "license": "MIT",
   "dependencies": {
-    "mkdirp": "~0.3.5",
-    "rimraf": "~2.2.1",
-    "ncp": "~0.4.2",
-    "loggy": "~0.2.0",
-    "commander": "~2.0.0"
+    "mkdirp": "~0.5.0",
+    "rimraf": "~2.3.2",
+    "ncp": "~2.0.0"
   }
 }

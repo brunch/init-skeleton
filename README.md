@@ -17,35 +17,25 @@ Supported formats:
 * Git URI
 * GitHub URI (gh:user/project, github:user/project)
 
-Install with npm: `npm install -g init-skeleton`.
+Install with npm: `npm install init-skeleton`.
 
 ## Usage
 
-`init-skeleton <uri-or-path-to-skeleton> [path-to-output-dir]`
-
-Examples:
-
-```bash
-init-skeleton simple
-init-skeleton ember toDir  # You can see list of names in skeletons.json
-init-skeleton gh:paulmillr/brunch-with-chaplin
-init-skeleton https://github.com/scotch/angular-brunch-seed
-init-skeleton gh:visionmedia/cool-skeleton ../../stuff
-```
-
-You can use it programmatically too, from node.js:
+initSkeleto
 
 ```javascript
 var initSkeleton = require('init-skeleton');
 
-initSkeleton('gh:paulmillr/cool-skeleton', function(error) {
-  console.log('Cloned!');
-});
-
-initSkeleton('gh:paulirish/cool-skeleton', 'output', function(error) {
-  console.log('Done!');
+initSkeleton('skeleton', function(error) {
+  console.log('Cloned');
 });
 ```
+
+- options:
+    - `rootPath` - `String`, root path of the result directory
+    - `commandName`: `String`
+    - `logger`: `console.{log,error}`-compatible logger.
+
 
 ## License
 
