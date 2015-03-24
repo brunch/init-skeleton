@@ -8,6 +8,14 @@ var rimraf = require('rimraf');
 var ncp = require('ncp');
 var utils = require('./utils');
 
+var skeletons = {
+  simple: 'gh:brunch/dead-simple',
+  exim: 'gh:hellyeahllc/brunch-with-exim',
+  chaplin: 'gh:paulmillr/brunch-with-chaplin',
+  angular: 'gh:scotch/angular-brunch-seed',
+  ember: 'gh:ksnyde/brunch-with-ember-sideloaded'
+};
+
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
 
@@ -105,32 +113,30 @@ var clone = function(address, rootPath, callback) {
 // callback    - Function.
 //
 // Returns nothing.
-var initSkeleton = function(skeleton, rootPath, callback) {
-  var banner, error;
+var initSkeleton = function(skeleton, options, callback) {
   var cwd = process.cwd();
-  if (rootPath == null) rootPath = cwd;
-  if (typeof rootPath === 'function') {
-    callback = rootPath;
-    rootPath = cwd;
+
+  if (typeof options === 'function') {
+    callback = options;
+    options = null;
   }
+  if (options == null) options = {};
+  var rootPath = options.rootPath || cwd;
+  var commandName = options.commandName || 'init-skeleton';
+
   if (skeleton === '.' && rootPath === cwd) skeleton = null;
-  if (callback == null) {
-    callback = function(error) {
-      if (error != null) return logger.error(error.toString());
-    };
-  }
+  if (callback == null) callback = function(error) {
+    if (error != null) return logger.error(error.toString());
+  };
+
+  var banner, error;
   if (skeleton == null) {
     banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
-    error = banner.replace(/\{\{command\}\}/g, initSkeleton.commandName);
+    error = banner.replace(/\{\{command\}\}/g, commandName);
     return callback(new Error(error));
   }
 
-  switch (skeleton) {
-    case 'exim':    skeleton = 'gh:hellyeahllc/brunch-with-exim'; break;
-    case 'chaplin': skeleton = 'gh:paulmillr/brunch-with-chaplin'; break;
-    case 'angular': skeleton = 'gh:scotch/angular-brunch-seed'; break;
-    case 'ember':   skeleton = 'gh:ksnyde/brunch-with-ember-sideloaded'; break;
-  }
+  skeleton = skeletons[skeleton] || skeleton;
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
@@ -142,7 +148,5 @@ var initSkeleton = function(skeleton, rootPath, callback) {
     get(skeleton, rootPath, callback);
   });
 };
-
-initSkeleton.commandName = 'init-skeleton';
 
 module.exports = initSkeleton;
