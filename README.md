@@ -26,10 +26,10 @@ Install with npm: `npm install -g init-skeleton`.
 Examples:
 
 ```bash
-init-skeleton ../dir/my-skeleton
+init-skeleton simple
+init-skeleton ember toDir  # You can see list of names in skeletons.json
 init-skeleton gh:paulmillr/brunch-with-chaplin
 init-skeleton https://github.com/scotch/angular-brunch-seed
-init-skeleton git@github.com:nezoomie/brunch-with-eggs-and-bacon.git current-project
 init-skeleton gh:visionmedia/cool-skeleton ../../stuff
 ```
 
