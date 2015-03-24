@@ -1,0 +1,7 @@
+{
+  "simple": "gh:brunch/dead-simple",
+  "exim": "gh:hellyeahllc/brunch-with-exim",
+  "chaplin": "gh:paulmillr/brunch-with-chaplin",
+  "angular": "gh:scotch/angular-brunch-seed",
+  "ember": "gh:ksnyde/brunch-with-ember-sideloaded"
+}

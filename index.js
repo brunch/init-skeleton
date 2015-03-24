@@ -6,15 +6,8 @@ var mkdirp = require('mkdirp');
 var sysPath = require('path');
 var rimraf = require('rimraf');
 var ncp = require('ncp');
-var utils = require('./utils');
 
-var skeletons = {
-  simple: 'gh:brunch/dead-simple',
-  exim: 'gh:hellyeahllc/brunch-with-exim',
-  chaplin: 'gh:paulmillr/brunch-with-chaplin',
-  angular: 'gh:scotch/angular-brunch-seed',
-  ember: 'gh:ksnyde/brunch-with-ember-sideloaded'
-};
+var skeletons = require('./skeletons.json');
 
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
