@@ -1,3 +1,6 @@
+# init-skeleton 0.4.3 (5 June 2015)
+* Added more skeletons
+
 # init-skeleton 0.4.0 (24 March 2015)
 * Removed standalone `init-skeleton` command.
 
