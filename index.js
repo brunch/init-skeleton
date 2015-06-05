@@ -7,8 +7,24 @@ var rimraf = require('rimraf');
 var ncp = require('ncp');
 
 var skeletons = require('./skeletons.json');
-
 var logger = console;
+var commandName = 'init-skeleton';
+
+var genBanner = function(skeletons, slice) {
+  var cmd = slice ? commandName + ' ' : '';
+  return Object.keys(skeletons).slice(0, slice).reduce(function(str, key) {
+    var arr = skeletons[key];
+    var link, text;
+    if (Array.isArray(arr)) {
+      link = arr[0];
+      text = arr[1];
+    } else {
+      link = '';
+      text = arr;
+    }
+    return str + '* ' + cmd + key + ' — ' + text + '\n';
+  }, '');
+};
 
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
@@ -118,7 +134,7 @@ var initSkeleton = function(skeleton, options, callback) {
 
   if (options == null) options = {};
   var rootPath = options.rootPath || cwd;
-  var commandName = options.commandName || 'init-skeleton';
+  if (options.commandName) commandName = options.commandName;
   if (options.logger) logger = options.logger;
 
   if (skeleton === '.' && rootPath === cwd) skeleton = null;
@@ -129,7 +145,9 @@ var initSkeleton = function(skeleton, options, callback) {
   var banner, error;
   if (skeleton == null) {
     banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
-    error = banner.replace(/\{\{command\}\}/g, commandName);
+    error = banner
+      .replace(/\{\{command\}\}/g, commandName)
+      .replace(/\{\{suggestions\}\}/g, genBanner(skeletons, 5));
     return callback(new Error(error));
   }
 

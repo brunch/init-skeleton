@@ -1,9 +1,8 @@
 {
-  "simple": "gh:brunch/dead-simple",
-  "react": "gh:brunch/react-app",
-  "exim": "gh:hellyeahllc/brunch-with-exim",
-  "chaplin": "gh:paulmillr/brunch-with-chaplin",
-  "angular": "gh:scotch/angular-brunch-seed",
-  "ember": "gh:ksnyde/brunch-with-ember-sideloaded",
-  "hipster": "gh:Anonyfox/node-webkit-hipster-seed"
+  "simple": ["gh:brunch/dead-simple", "if you want no opinions. Just initializes configs and empty directories"],
+  "react": ["gh:brunch/react-app", "React + React Router + Stylus + ES6 / JSX"],
+  "hipster": ["gh:Anonyfox/node-webkit-hipster-seed", "node-webkit, CoffeeScript + Less + Jade, Angular, Bootstrap"],
+  "chaplin": ["gh:paulmillr/brunch-with-chaplin", "Backbone, Chaplin, CoffeeScript. One of the most popular skeletons"],
+  "ember": ["gh:ksnyde/brunch-with-ember-sideloaded", "Official Ember.js starter kit + Handlebars + CoffeeScript + Stylus"],
+  "exim": ["gh:hellyeahllc/brunch-with-exim", "Neat Flux-based Exim framework on top of React and optional CoffeeScript."]
 }

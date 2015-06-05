@@ -1,18 +1,13 @@
-You must specify skeleton (boilerplate) from which new app will be initialised.
+You must specify skeleton (boilerplate) from which new app will be initialized.
 
-You can specify directory on disk, Git URL or GitHub uri (gh:user/repo):
+You can specify alias, Git URL or GitHub URI (gh:user/repo):
 
-{{command}} <path-or-URI> [optional-output-dir]
+{{command}} simple [optional-dir]
 {{command}} https://github.com/brunch/dead-simple
-{{command}} simple
+{{command}} <URI>
 
 Some suggestions:
 
-* brunch new simple — if you want no opinions. Just initializes configs and empty directories
-* brunch new react — React + React Router + Stylus + ES6 / JSX
-* brunch new chaplin — Brunch with Chaplin (Backbone, Chaplin, CoffeeScript). The most popular skeleton
-* brunch new hipster — node-webkit, CoffeeScript + Less + Jade, Angular, Bootstrap
-* brunch new ember — official Ember.js starter kit + Handlebars + CoffeeScript + Stylus
-
+{{suggestions}}
 Other 50+ skeletons are available at
 http://brunch.io/skeletons
