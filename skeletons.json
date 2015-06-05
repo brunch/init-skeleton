@@ -1,5 +1,6 @@
 {
   "simple": "gh:brunch/dead-simple",
+  "react": "gh:brunch/react-app",
   "exim": "gh:hellyeahllc/brunch-with-exim",
   "chaplin": "gh:paulmillr/brunch-with-chaplin",
   "angular": "gh:scotch/angular-brunch-seed",
