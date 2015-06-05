@@ -147,7 +147,7 @@ var initSkeleton = function(skeleton, options, callback) {
     banner = fs.readFileSync(sysPath.join(__dirname, 'banner.txt'), 'utf8');
     error = banner
       .replace(/\{\{command\}\}/g, commandName)
-      .replace(/\{\{suggestions\}\}/g, genBanner(skeletons, 5));
+      .replace(/\{\{suggestions\}\}/g, genBanner(skeletons, 8));
     return callback(new Error(error));
   }
 
