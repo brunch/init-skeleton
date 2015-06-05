@@ -152,6 +152,7 @@ var initSkeleton = function(skeleton, options, callback) {
   }
 
   skeleton = skeletons[skeleton] || skeleton;
+  if (Array.isArray(skeleton)) skeleton = skeleton[0];
 
   var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
