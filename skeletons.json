@@ -6,5 +6,5 @@
   "ember": ["gh:mutewinter/tapas-with-ember", "A skeleton for rapid Ember development. CoffeeScript + Stylus + Handlebars"],
   "cordova": ["gh:jupl/btc-cordova", "Bare skeleton that includes support for building apps using Apache Cordova aka Phonegap."],
   "banana-pancakes": ["gh:Anaphase/brunch-banana-pancakes", "A simple skeleton for Bootstrap."],
-  "exim": ["gh:hellyeahllc/brunch-with-exim", "Neat Flux-based Exim framework on top of React and optional CoffeeScript."],
+  "exim": ["gh:hellyeahllc/brunch-with-exim", "Neat Flux-based Exim framework on top of React and optional CoffeeScript."]
 }
