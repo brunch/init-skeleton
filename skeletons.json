@@ -4,5 +4,6 @@
   "exim": "gh:hellyeahllc/brunch-with-exim",
   "chaplin": "gh:paulmillr/brunch-with-chaplin",
   "angular": "gh:scotch/angular-brunch-seed",
-  "ember": "gh:ksnyde/brunch-with-ember-sideloaded"
+  "ember": "gh:ksnyde/brunch-with-ember-sideloaded",
+  "hipster": "gh:Anonyfox/node-webkit-hipster-seed"
 }
