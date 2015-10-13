@@ -1,3 +1,6 @@
+# init-skeleton 0.5.0 (14 October 2015)
+* Now allows to clone inside existing git repositories.
+
 # init-skeleton 0.4.3 (5 June 2015)
 * Added more skeletons
 
