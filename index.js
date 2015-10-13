@@ -5,6 +5,7 @@ var mkdirp = require('mkdirp');
 var sysPath = require('path');
 var rimraf = require('rimraf');
 var ncp = require('ncp');
+var tmp = require('tmp');
 
 var skeletons = require('./skeletons.json');
 var logger = console;
@@ -104,15 +105,24 @@ var clone = function(address, rootPath, callback) {
   var url = gitHubRe.test(address) ?
     ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
   logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
-  var cmd = 'git clone ' + url + ' "' + rootPath + '"';
-  exec(cmd, function(error, stdout, stderr) {
+  tmp.dir({unsafeCleanup: true}, function(error, tempPath, cleanupCallback) {
     if (error != null) {
-      return callback(new Error("Git clone error: " + stderr.toString()));
+      return callback(new Error("Temp dir error: " + error.toString()));
     }
-    logger.log('Created skeleton directory layout');
-    rimraf(sysPath.join(rootPath, '.git'), function(error) {
-      if (error != null) return callback(new Error(error));
-      install(rootPath, callback);
+    var cmd = 'git clone ' + url + ' ' + tempPath;
+    exec(cmd, function(error, stdout, stderr) {
+      if (error != null) {
+        return callback(new Error("Git clone error: " + stderr.toString()));
+      }
+      rimraf(sysPath.join(tempPath, '.git'), function(error) {
+        if (error != null) {
+          return callback(new Error("Git dir removal error: " + error.toString()));
+        }
+        ncp(tempPath, rootPath, function() {
+          logger.log('Created skeleton directory layout');
+          install(rootPath, callback);
+        });
+      });
     });
   });
 };
