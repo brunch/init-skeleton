@@ -1,6 +1,6 @@
 You should specify skeleton (boilerplate) from which new app will be initialized.
 
-You can specify skeleton name or URL:
+Pass skeleton name or URL like that:
 
 {{command}} simple [optional-dir]
 {{command}} https://github.com/brunch/dead-simple
@@ -8,5 +8,5 @@ You can specify skeleton name or URL:
 A few popular skeletons:
 
 {{suggestions}}
-Other 50+ skeletons are available at
+Other 50+ boilerplates are available at
 http://brunch.io/skeletons

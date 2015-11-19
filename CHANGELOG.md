@@ -1,3 +1,6 @@
+# init-skeleton 0.6.0 (19 November 2015)
+* Banner adjustments for Brunch 2.
+
 # init-skeleton 0.5.0 (14 October 2015)
 * Now allows to clone inside existing git repositories.
 
