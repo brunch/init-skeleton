@@ -1,12 +1,11 @@
-You must specify skeleton (boilerplate) from which new app will be initialized.
+You should specify skeleton (boilerplate) from which new app will be initialized.
 
-You can specify alias, Git URL or GitHub URI (gh:user/repo):
+You can specify skeleton name or URL:
 
 {{command}} simple [optional-dir]
 {{command}} https://github.com/brunch/dead-simple
-{{command}} <URI>
 
-Some suggestions:
+A few popular skeletons:
 
 {{suggestions}}
 Other 50+ skeletons are available at
