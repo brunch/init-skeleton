@@ -93,6 +93,20 @@ var copy = function(skeletonPath, rootPath, callback) {
   });
 };
 
+var re = {
+  github: /(gh|github)\:(?:\/\/)?/,
+  slash: /^[-\w]+\/[-\w]+$/
+};
+
+var cleanURL = function(address) {
+  if (re.slash.test(address)) return "git://github.com/" + address + ".git";
+  if (re.github.test(address)) {
+    var res = address.replace(re.github, '');
+    return "git://github.com/" + res + ".git";
+  }
+  return address;
+};
+
 // Clones skeleton from URI.
 //
 // address     - String, URI. https:, github: or git: may be used.
@@ -101,9 +115,7 @@ var copy = function(skeletonPath, rootPath, callback) {
 //
 // Returns nothing.
 var clone = function(address, rootPath, callback) {
-  var gitHubRe = /(gh|github)\:(?:\/\/)?/;
-  var url = gitHubRe.test(address) ?
-    ("git://github.com/" + address.replace(gitHubRe, '') + ".git") : address;
+  var url = cleanURL(address);
   logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
   tmp.dir({unsafeCleanup: true}, function(error, tempPath, cleanupCallback) {
     if (error != null) {
@@ -175,4 +187,5 @@ var initSkeleton = function(skeleton, options, callback) {
   });
 };
 
-module.exports = initSkeleton;
+exports.init = initSkeleton;
+exports.cleanURL = cleanURL;

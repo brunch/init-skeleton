@@ -1,3 +1,7 @@
+# init-skeleton 0.7.0 (Dec 6, 2015)
+* The syntax became: `require('init-skeleton').init()`.
+* Now supports `init('user/repo')` for github shortcuts.
+
 # init-skeleton 0.6.0 (19 November 2015)
 * Banner adjustments for Brunch 2.
 

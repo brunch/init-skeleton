@@ -24,7 +24,7 @@ Install with npm: `npm install init-skeleton`.
 initSkeleto
 
 ```javascript
-var initSkeleton = require('init-skeleton');
+var initSkeleton = require('init-skeleton').init;
 
 initSkeleton('skeleton', function(error) {
   console.log('Cloned');
