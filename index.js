@@ -188,4 +188,9 @@ var initSkeleton = function(skeleton, options, callback) {
 };
 
 exports.init = initSkeleton;
+exports.printBanner = function(commandName) {
+  initSkeleton(null, {commandName: commandName}, (error) => {
+    console.log(error.message);
+  });
+}
 exports.cleanURL = cleanURL;
