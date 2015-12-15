@@ -5,7 +5,8 @@ var mkdirp = require('mkdirp');
 var sysPath = require('path');
 var rimraf = require('rimraf');
 var ncp = require('ncp');
-var tmp = require('tmp');
+var os = require('os');
+var crypto = require('crypto');
 
 var skeletons = require('./skeletons.json');
 var logger = console;
@@ -107,6 +108,12 @@ var cleanURL = function(address) {
   return address;
 };
 
+var sha1Digest = function(string) {
+  var shasum = crypto.createHash('sha1');
+  shasum.update(string);
+  return shasum.digest('hex');
+};
+
 // Clones skeleton from URI.
 //
 // address     - String, URI. https:, github: or git: may be used.
@@ -116,25 +123,56 @@ var cleanURL = function(address) {
 // Returns nothing.
 var clone = function(address, rootPath, callback) {
   var url = cleanURL(address);
-  logger.log('Cloning git repo "' + url + '" to "' + rootPath + '"...');
-  tmp.dir({unsafeCleanup: true}, function(error, tempPath, cleanupCallback) {
-    if (error != null) {
-      return callback(new Error("Temp dir error: " + error.toString()));
-    }
-    var cmd = 'git clone ' + url + ' ' + tempPath;
-    exec(cmd, function(error, stdout, stderr) {
-      if (error != null) {
-        return callback(new Error("Git clone error: " + stderr.toString()));
-      }
-      rimraf(sysPath.join(tempPath, '.git'), function(error) {
+  var cacheDir = sysPath.join(os.homedir(), '.init-skeleton', 'cache');
+  var repoHash = sha1Digest(url);
+  var repoDir = sysPath.join(cacheDir, repoHash);
+
+  var copyCached = function() {
+    ncp(repoDir, rootPath, function() {
+      rimraf(sysPath.join(rootPath, '.git'), function(error) {
         if (error != null) {
-          return callback(new Error("Git dir removal error: " + error.toString()));
+          logger.error("Git dir removal error: " + error.toString());
         }
-        ncp(tempPath, rootPath, function() {
-          logger.log('Created skeleton directory layout');
-          install(rootPath, callback);
-        });
+
+        logger.log('Created skeleton directory layout');
+        install(rootPath, callback);
       });
+    });
+  };
+
+  mkdirp(cacheDir, function(error) {
+    if (error != null) {
+      return callback(new Error("Mkdir error: " + e.toString()));
+    }
+
+    fsexists(repoDir, function(exists) {
+      console.log(exists);
+      if (exists) {
+        logger.log('Pulling recent changes from git repo "' + url + '" to "' + repoDir + '"...');
+
+        var cmd = 'git pull origin master';
+        exec(cmd, { cwd: repoDir }, function(error, stdout, stderr) {
+          if (error != null) {
+            logger.log('Could not pull, using cached version (' + error.toString() + ')');
+          } else {
+            logger.log('Pulled master into "' + repoDir + '"');
+          }
+
+          copyCached();
+        });
+      } else {
+        logger.log('Cloning git repo "' + url + '" to "' + repoDir + '"...');
+
+        var cmd = 'git clone ' + url + ' ' + repoDir;
+        exec(cmd, function(error, stdout, stderr) {
+          if (error != null) {
+            return callback(new Error("Git clone error: " + stderr.toString()));
+          }
+
+          logger.log('Cloned "' + url + '" into "' + repoDir + '"');
+          copyCached();
+        });
+      }
     });
   });
 };
