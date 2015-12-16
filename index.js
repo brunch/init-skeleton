@@ -123,7 +123,7 @@ var sha1Digest = function(string) {
 // Returns nothing.
 var clone = function(address, rootPath, callback) {
   var url = cleanURL(address);
-  var cacheDir = sysPath.join(os.homedir(), '.init-skeleton', 'cache');
+  var cacheDir = sysPath.join(os.homedir(), '.brunch', 'cache');
   var repoHash = sha1Digest(url);
   var repoDir = sysPath.join(cacheDir, repoHash);
 
