@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/paulmillr/init-skeleton"
+    "type": "git",l
+    "url": "https://github.com/brunch/init-skeleton"
   },
   "keywords": [
     "init",
