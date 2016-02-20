@@ -220,8 +220,15 @@ var initSkeleton = function(skeleton, options, callback) {
       return callback(new Error("Directory '" + rootPath + "' is already an npm project"));
     }
     var isGitUri = skeleton && uriRe.test(skeleton);
-    var get = isGitUri ? clone : copy;
-    get(skeleton, rootPath, callback);
+    if (!isGitUri && re.slash.test(skeleton)) {
+      fsexists(sysPath.resolve(skeleton), function(exists) {
+        var get = exists ? copy : clone;
+        get(skeleton, rootPath, callback);
+      });
+    } else {
+      var get = isGitUri ? clone : copy;
+      get(skeleton, rootPath, callback);
+    }
   });
 };
 
