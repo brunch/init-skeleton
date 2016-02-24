@@ -7,6 +7,8 @@ var rimraf = require('rimraf');
 var ncp = require('ncp');
 var os = require('os');
 var crypto = require('crypto');
+var hostedGitInfo = require('hosted-git-info');
+var normalizeGitUrl = require('normalize-git-url');
 
 var skeletons = require('./skeletons.json');
 var logger = console;
@@ -94,18 +96,11 @@ var copy = function(skeletonPath, rootPath, callback) {
   });
 };
 
-var re = {
-  github: /(gh|github)\:(?:\/\/)?/,
-  slash: /^[-\w]+\/[-\w]+$/
-};
-
 var cleanURL = function(address) {
-  if (re.slash.test(address)) return "git://github.com/" + address + ".git";
-  if (re.github.test(address)) {
-    var res = address.replace(re.github, '');
-    return "git://github.com/" + res + ".git";
-  }
-  return address;
+  address = address.replace(/^gh\:/, 'github:');
+  var hosted = hostedGitInfo.fromUrl(address);
+  if (!hosted) return;
+  return normalizeGitUrl(hosted.https()).url;
 };
 
 var sha1Digest = function(string) {
@@ -123,6 +118,10 @@ var sha1Digest = function(string) {
 // Returns nothing.
 var clone = function(address, rootPath, callback) {
   var url = cleanURL(address);
+  if (!url) {
+    logger.error(`Couldn't interpret '${address}' as a hosted git url`);
+    process.exit(0);
+  }
   var cacheDir = sysPath.join(os.homedir(), '.brunch', 'skeletons');
   var repoHash = sha1Digest(url);
   var repoDir = sysPath.join(cacheDir, repoHash);
@@ -146,7 +145,6 @@ var clone = function(address, rootPath, callback) {
     }
 
     fsexists(repoDir, function(exists) {
-      console.log(exists);
       if (exists) {
         logger.log('Pulling recent changes from git repo "' + url + '" to "' + repoDir + '"...');
 
@@ -214,21 +212,14 @@ var initSkeleton = function(skeleton, options, callback) {
   skeleton = skeletons[skeleton] || skeleton;
   if (Array.isArray(skeleton)) skeleton = skeleton[0];
 
-  var uriRe = /(?:https?|git(hub)?|gh)(?::\/\/|@)?/;
   fsexists(sysPath.join(rootPath, 'package.json'), function(exists) {
     if (exists) {
       return callback(new Error("Directory '" + rootPath + "' is already an npm project"));
     }
-    var isGitUri = skeleton && uriRe.test(skeleton);
-    if (!isGitUri && re.slash.test(skeleton)) {
-      fsexists(sysPath.resolve(skeleton), function(exists) {
-        var get = exists ? copy : clone;
-        get(skeleton, rootPath, callback);
-      });
-    } else {
-      var get = isGitUri ? clone : copy;
+    fsexists(sysPath.resolve(skeleton), function(exists) {
+      var get = exists ? copy : clone;
       get(skeleton, rootPath, callback);
-    }
+    });
   });
 };
 
