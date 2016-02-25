@@ -10,9 +10,16 @@ var crypto = require('crypto');
 var hostedGitInfo = require('hosted-git-info');
 var normalizeGitUrl = require('normalize-git-url');
 
-var skeletons = require('./skeletons.json');
+var brunchSkeletons = require('brunch-skeletons').skeletons;
 var logger = console;
 var commandName = 'init-skeleton';
+
+var skeletons = brunchSkeletons.filter(function(skeleton) {
+  return skeleton.alias;
+}).reduce(function(memo, skeleton) {
+  memo[skeleton.alias] = [skeleton.url, skeleton.description];
+  return memo;
+}, {});
 
 var genBanner = function(skeletons, slice) {
   var cmd = slice ? commandName + ' ' : '';
