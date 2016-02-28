@@ -107,7 +107,7 @@ var cleanURL = function(address) {
   address = address.replace(/^gh\:/, 'github:');
   var hosted = hostedGitInfo.fromUrl(address);
   if (!hosted) return;
-  return normalizeGitUrl(hosted.https()).url;
+  return normalizeGitUrl(hosted.git()).url;
 };
 
 var sha1Digest = function(string) {
