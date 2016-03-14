@@ -3,7 +3,6 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var sysPath = require('path');
-var rimraf = require('rimraf');
 var ncp = require('ncp');
 var os = require('os');
 var crypto = require('crypto');
@@ -134,15 +133,13 @@ var clone = function(address, rootPath, callback) {
   var repoDir = sysPath.join(cacheDir, repoHash);
 
   var copyCached = function() {
-    ncp(repoDir, rootPath, function() {
-      rimraf(sysPath.join(rootPath, '.git'), function(error) {
-        if (error != null) {
-          logger.error("Git dir removal error: " + error.toString());
-        }
-
-        logger.log('Created skeleton directory layout');
-        install(rootPath, callback);
-      });
+    var filter = function(path) {
+      var r = /\.git$/;
+      return !r.test(path);
+    };
+    ncp(repoDir, rootPath, {filter: filter}, function() {
+      logger.log('Created skeleton directory layout');
+      install(rootPath, callback);
     });
   };
 

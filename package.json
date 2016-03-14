@@ -21,7 +21,6 @@
   "dependencies": {
     "mkdirp": "~0.5.0",
     "ncp": "^2.0.0",
-    "rimraf": "~2.4.0",
     "hosted-git-info": "~2.1.4",
     "normalize-git-url": "~3.0.1",
     "brunch-skeletons": "~0.1.0"
