@@ -105,8 +105,11 @@ var copy = function(skeletonPath, rootPath, callback) {
 var cleanURL = function(address) {
   address = address.replace(/^gh\:/, 'github:');
   var hosted = hostedGitInfo.fromUrl(address);
-  if (!hosted) return;
-  return normalizeGitUrl(hosted.git()).url;
+  if (!hosted) {
+    logger.warn(`Couldn't interpret '${address}' as a hosted git url`);
+  }
+  const git = hosted && hosted.git() || address;
+  return normalizeGitUrl(git).url;
 };
 
 var sha1Digest = function(string) {
@@ -124,10 +127,6 @@ var sha1Digest = function(string) {
 // Returns nothing.
 var clone = function(address, rootPath, callback) {
   var url = cleanURL(address);
-  if (!url) {
-    logger.error(`Couldn't interpret '${address}' as a hosted git url`);
-    process.exit(0);
-  }
   var cacheDir = sysPath.join(os.homedir(), '.brunch', 'skeletons');
   var repoHash = sha1Digest(url);
   var repoDir = sysPath.join(cacheDir, repoHash);
