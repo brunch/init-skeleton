@@ -45,12 +45,13 @@ var fsexists = fs.exists || sysPath.exists;
 // callback - Function. Takes stderr and stdout of executed process.
 //
 // Returns nothing.
-var install = function(rootPath, callback) {
+var install = function(rootPath, useCached, callback) {
   var prevDir = process.cwd();
   logger.log('Installing packages...');
   process.chdir(rootPath);
   fsexists('bower.json', function(exists) {
     var installCmd = 'npm install';
+    if (useCached) installCmd += ' --cache-min 9999999';
     if (exists) installCmd += ' & bower install';
     exec(installCmd, function(error, stdout, stderr) {
       var log;
@@ -83,7 +84,7 @@ var copy = function(skeletonPath, rootPath, callback) {
     ncp(skeletonPath, rootPath, {filter: ignored, stopOnErr: true}, function(error) {
       if (error != null) return callback(new Error(error));
       logger.log('Created skeleton directory layout');
-      install(rootPath, callback);
+      install(rootPath, false, callback);
     });
   };
 
@@ -131,14 +132,14 @@ var clone = function(address, rootPath, callback) {
   var repoHash = sha1Digest(url);
   var repoDir = sysPath.join(cacheDir, repoHash);
 
-  var copyCached = function() {
+  var copyCached = function(useCached) {
     var filter = function(path) {
       var r = /\.git$/;
       return !r.test(path);
     };
     ncp(repoDir, rootPath, {filter: filter}, function() {
       logger.log('Created skeleton directory layout');
-      install(rootPath, callback);
+      install(rootPath, useCached, callback);
     });
   };
 
@@ -155,11 +156,11 @@ var clone = function(address, rootPath, callback) {
         exec(cmd, { cwd: repoDir }, function(error, stdout, stderr) {
           if (error != null) {
             logger.log('Could not pull, using cached version (' + error.toString() + ')');
+            copyCached(true);
           } else {
             logger.log('Pulled master into "' + repoDir + '"');
+            copyCached(false);
           }
-
-          copyCached();
         });
       } else {
         logger.log('Cloning git repo "' + url + '" to "' + repoDir + '"...');
@@ -171,7 +172,7 @@ var clone = function(address, rootPath, callback) {
           }
 
           logger.log('Cloned "' + url + '" into "' + repoDir + '"');
-          copyCached();
+          copyCached(false);
         });
       }
     });
