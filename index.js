@@ -81,8 +81,12 @@ var ignored = function(path) {
 // Returns nothing.
 var copy = function(skeletonPath, rootPath, callback) {
   var copyDirectory = function() {
-    ncp(skeletonPath, rootPath, {filter: ignored, stopOnErr: true}, function(error) {
+    var warns = [];
+    ncp(skeletonPath, rootPath, {filter: ignored, clobber: false, warns: warns, stopOnErr: true}, function(error) {
       if (error != null) return callback(new Error(error));
+      warns.forEach(function(warn) {
+        logger.warn(warn);
+      });
       logger.log('Created skeleton directory layout');
       install(rootPath, false, callback);
     });
@@ -137,7 +141,11 @@ var clone = function(address, rootPath, callback) {
       var r = /\.git$/;
       return !r.test(path);
     };
-    ncp(repoDir, rootPath, {filter: filter}, function() {
+    var warns = [];
+    ncp(repoDir, rootPath, {filter: filter, clobber: false, warns: warns}, function() {
+      warns.forEach(function(warn) {
+        logger.warn(warn);
+      });
       logger.log('Created skeleton directory layout');
       install(rootPath, useCached, callback);
     });
