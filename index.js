@@ -165,7 +165,7 @@ var clone = function(address, rootPath, callback) {
       } else {
         logger.log('Cloning git repo "' + url + '" to "' + repoDir + '"...');
 
-        var cmd = 'git clone ' + url + ' ' + repoDir;
+        var cmd = 'git clone ' + url + ' "' + repoDir + '"';
         exec(cmd, function(error, stdout, stderr) {
           if (error != null) {
             return callback(new Error("Git clone error: " + stderr.toString()));
