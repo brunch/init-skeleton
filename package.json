@@ -1,6 +1,6 @@
 {
   "name": "init-skeleton",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "A simple interface that clones or copies skeletons (base projects for your apps).",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,6 @@
     "ncp": "^2.0.0",
     "hosted-git-info": "~2.1.4",
     "normalize-git-url": "~3.0.1",
-    "brunch-skeletons": "~0.1.0"
+    "brunch-skeletons": "~0.1.4"
   }
 }
