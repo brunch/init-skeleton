@@ -1,7 +1,7 @@
 {
   "name": "init-skeleton",
   "version": "0.9.5",
-  "description": "A simple interface that clones or copies skeletons (base projects for your apps).",
+  "description": "A simple interface that clones or copies skeletons aka base projects for your apps.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
