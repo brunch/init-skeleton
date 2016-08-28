@@ -145,7 +145,7 @@ var clone = function(address, rootPath, callback) {
 
   mkdirp(cacheDir, function(error) {
     if (error != null) {
-      return callback(new Error("Mkdir error: " + e.toString()));
+      return callback(new Error("Mkdir error: " + error.toString()));
     }
 
     fsexists(repoDir, function(exists) {
