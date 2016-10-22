@@ -39,6 +39,15 @@ var genBanner = function(skeletons, slice) {
 // Shortcut for backwards-compat fs.exists.
 var fsexists = fs.exists || sysPath.exists;
 
+// Find out if yarn global install is available
+var globalYarnExists = function(callback) {
+  exec('npm root -g', function(error, stdout, stderr) {
+    var globalNodeModules = stdout.toString().trim();
+    var yarnPath = sysPath.join(globalNodeModules, 'yarn');
+    fsexists(yarnPath, callback);
+  });
+};
+
 // Executes `npm install` and `bower install` in rootPath.
 //
 // rootPath - String. Path to directory in which command will be executed.
@@ -50,20 +59,22 @@ var install = function(rootPath, useCached, callback) {
   logger.log('Installing packages...');
   process.chdir(rootPath);
   fsexists('bower.json', function(exists) {
-    var installCmd = 'npm install';
-    if (useCached) installCmd += ' --cache-min 9999999';
-    if (exists) installCmd += ' & bower install';
-    exec(installCmd, function(error, stdout, stderr) {
-      var log;
-      process.chdir(prevDir);
-      if (stdout) console.log(stdout.toString());
-      if (error != null) {
-        log = stderr.toString();
-        var bowerNotFound = /bower\: command not found/.test(log);
-        var msg = bowerNotFound ? 'You need to install Bower and then install skeleton dependencies: `npm install -g bower && bower install`. Error text: ' + log : log;
-        return callback(new Error(msg));
-      }
-      callback(null, stdout);
+    globalYarnExists(function(yarnExists) {
+      var installCmd = yarnExists ? 'yarn' : 'npm install';
+      if (useCached && !yarnExists) installCmd += ' --cache-min 9999999';
+      if (exists) installCmd += ' & bower install';
+      exec(installCmd, function(error, stdout, stderr) {
+        var log;
+        process.chdir(prevDir);
+        if (stdout) console.log(stdout.toString());
+        if (error != null) {
+          log = stderr.toString();
+          var bowerNotFound = /bower\: command not found/.test(log);
+          var msg = bowerNotFound ? 'You need to install Bower and then install skeleton dependencies: `npm install -g bower && bower install`. Error text: ' + log : log;
+          return callback(new Error(msg));
+        }
+        callback(null, stdout);
+      });
     });
   });
 };
@@ -153,7 +164,7 @@ var clone = function(address, rootPath, callback) {
         logger.log('Pulling recent changes from git repo "' + url + '" to "' + repoDir + '"...');
 
         var cmd = 'git pull origin master';
-        exec(cmd, { cwd: repoDir }, function(error, stdout, stderr) {
+        exec(cmd, {cwd: repoDir}, function(error, stdout, stderr) {
           if (error != null) {
             logger.log('Could not pull, using cached version (' + error.toString() + ')');
             copyCached(true);
