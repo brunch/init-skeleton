@@ -13,6 +13,10 @@ var brunchSkeletons = require('brunch-skeletons').skeletons;
 var logger = console;
 var commandName = 'init-skeleton';
 
+// Force colors in `exec` outputs
+process.env.FORCE_COLOR = true;
+process.env.NPM_CONFIG_COLOR = 'always';
+
 var skeletons = brunchSkeletons.filter(function(skeleton) {
   return skeleton.alias;
 }).reduce(function(memo, skeleton) {
