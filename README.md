@@ -24,16 +24,16 @@ Install with npm: `npm install init-skeleton`.
 initSkeleto
 
 ```javascript
-var initSkeleton = require('init-skeleton').init;
+const initSkeleton = require('init-skeleton').init;
 
-initSkeleton('skeleton', function(error) {
+initSkeleton('skeleton').then(() => {
   console.log('Cloned');
 });
 ```
 
 - options:
     - `rootPath` - `String`, root path of the result directory
-    - `commandName`: `String`
+    - `commandName`: `String`, defaults to `init-skeleton`
     - `logger`: `console.{log,error}`-compatible logger.
 
 
