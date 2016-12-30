@@ -15,13 +15,11 @@ Supported formats:
 
 * File system
 * Git URI
-* GitHub URI (gh:user/project, github:user/project)
+* GitHub URI (`gh:user/project`, `github:user/project`)
 
 Install with npm: `npm install init-skeleton`.
 
 ## Usage
-
-initSkeleto
 
 ```javascript
 const initSkeleton = require('init-skeleton').init;
@@ -31,7 +29,7 @@ initSkeleton('skeleton').then(() => {
 });
 ```
 
-- options:
+- `options`:
     - `rootPath` - `String`, root path of the result directory
     - `commandName`: `String`, defaults to `init-skeleton`
     - `logger`: `console.{log,error}`-compatible logger.
