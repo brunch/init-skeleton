@@ -3,9 +3,6 @@
   "version": "0.9.5",
   "description": "A simple interface that clones or copies skeletons aka base projects for your apps.",
   "main": "lib",
-  "scripts": {
-    "test": "eslint lib"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/brunch/init-skeleton"
@@ -31,6 +28,9 @@
   "devDependencies": {
     "eslint": "^3.0.0",
     "eslint-config-brunch": "brunch/eslint-config-brunch"
+  },
+  "scripts": {
+    "test": "eslint lib"
   },
   "eslintConfig": {
     "extends": "brunch"
