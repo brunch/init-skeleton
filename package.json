@@ -1,6 +1,6 @@
 {
   "name": "init-skeleton",
-  "version": "0.9.5",
+  "version": "1.0.0",
   "description": "A simple interface that clones or copies skeletons aka base projects for your apps.",
   "main": "lib",
   "repository": {
