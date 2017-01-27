@@ -17,16 +17,16 @@
   "license": "MIT",
   "dependencies": {
     "micro-promisify": "~0.1.0",
-    "deps-install": "brunch/deps-install",
     "mkdirp": "~0.5.0",
     "ncp": "^2.0.0",
+    "deps-install": "~0.1",
     "hosted-git-info": "~2.1.4",
     "normalize-git-url": "~3.0.1",
     "brunch-skeletons": "~0.1.4"
   },
   "devDependencies": {
     "eslint": "^3.0.0",
-    "eslint-config-brunch": "brunch/eslint-config-brunch"
+    "eslint-config-brunch": "^1"
   },
   "scripts": {
     "test": "eslint lib"
