@@ -16,16 +16,16 @@
   "author": "Paul Miller (http://paulmillr.com)",
   "license": "MIT",
   "dependencies": {
-    "micro-promisify": "~0.1.0",
-    "mkdirp": "~0.5.0",
-    "ncp": "^2.0.0",
+    "micro-promisify": "~0.1",
     "deps-install": "~0.1",
+    "mkdirp": "~0.5",
+    "ncp": "^2",
     "hosted-git-info": "~2.1.4",
     "normalize-git-url": "~3.0.1",
     "brunch-skeletons": "~0.1.4"
   },
   "devDependencies": {
-    "eslint": "^3.0.0",
+    "eslint": "^3",
     "eslint-config-brunch": "^1"
   },
   "scripts": {
