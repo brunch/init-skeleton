@@ -30,8 +30,9 @@ skeletons.urlFor = alias => {
   }
 };
 
+// abbrev of sha
 function sha256(string) {
-  return crypto.createHash('sha256').update(string).digest('hex');
+  return crypto.createHash('sha256').update(string).digest('hex').slice(0, 8);
 }
 
 async function exists(path) {
