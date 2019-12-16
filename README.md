@@ -1,3 +1,5 @@
+Deprecated: incorporated into Brunch 3
+
 # init-skeleton
 
 A simple interface that clones or copies skeletons.
